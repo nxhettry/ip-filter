@@ -46,8 +46,6 @@ export default function IpTracker() {
 
       const data = await response.json();
 
-      console.log("Data: ", data);
-
       setIpData(data.data);
     } catch (error) {
       console.error("Failed to fetch IP data:", error);
