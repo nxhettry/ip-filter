@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,11 +30,12 @@ export default function IpTracker() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch data on component mount
-  useState(() => {
+  useEffect(() => {
     fetchIpData();
-  });
+  }, []);
 
   async function fetchIpData() {
+    setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}/api/ip-data`);
       if (response.ok) {
@@ -44,6 +45,8 @@ export default function IpTracker() {
     } catch (error) {
       console.error("Failed to fetch IP data:", error);
       toast.error("Failed to load IP data");
+    } finally {
+      setIsLoading(false);
     }
   }
 
