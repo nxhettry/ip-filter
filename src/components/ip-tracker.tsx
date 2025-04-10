@@ -30,8 +30,12 @@ export default function IpTracker() {
   });
 
   async function fetchIpData() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    
+  if (!baseUrl) throw new Error ("No baseUrl defined");
+    
     try {
-      const response = await fetch("/api/ip-data");
+      const response = await fetch(`${baseUrl}/api/ip-data`);
       if (response.ok) {
         const data = await response.json();
         setIpData(data);
