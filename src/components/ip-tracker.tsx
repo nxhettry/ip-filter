@@ -89,7 +89,9 @@ export default function IpTracker() {
           value={ipAddress}
           onChange={(e) => setIpAddress(e.target.value)}
           className="flex-grow"
+          
         />
+        
         <Button onClick={handleAddClick}>Add to List</Button>
       </div>
 
