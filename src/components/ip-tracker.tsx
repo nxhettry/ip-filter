@@ -89,9 +89,15 @@ export default function IpTracker() {
           value={ipAddress}
           onChange={(e) => setIpAddress(e.target.value)}
           className="flex-grow"
-          
+          list="ip-suggestions"
         />
-        
+        <datalist id="ip-suggestions">
+          {ipData.map((item, index) => (
+            <option key={index} value={item.ip}>
+              {item.ip}
+            </option>
+          ))}
+        </datalist>
         <Button onClick={handleAddClick}>Add to List</Button>
       </div>
 
