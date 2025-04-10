@@ -14,6 +14,12 @@ import { Label } from "@/components/ui/label";
 import type { IpData } from "@/lib/models/ip-data";
 import { toast } from "sonner";
 
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+if (!baseUrl) {
+  throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
+}
+
 export default function IpTracker() {
   const [ipAddress, setIpAddress] = useState("");
   const [country, setCountry] = useState("");
@@ -30,7 +36,7 @@ export default function IpTracker() {
 
   async function fetchIpData() {
     try {
-      const response = await fetch(`/api/ip-data`);
+      const response = await fetch(`${baseUrl}/api/ip-data`);
       if (response.ok) {
         const data = await response.json();
         setIpData(data);
@@ -62,7 +68,7 @@ export default function IpTracker() {
     };
 
     try {
-      const res = await fetch(`/api/ip-data`, {
+      const res = await fetch(`${baseUrl}/api/ip-data`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
