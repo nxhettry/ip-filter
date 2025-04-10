@@ -11,7 +11,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { addIpData } from "@/lib/actions";
 import type { IpData } from "@/lib/models/ip-data";
 import { toast } from "sonner";
 
@@ -30,10 +29,10 @@ export default function IpTracker() {
   });
 
   async function fetchIpData() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    
-  if (!baseUrl) throw new Error ("No baseUrl defined");
-    
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!baseUrl) throw new Error("No baseUrl defined");
+
     try {
       const response = await fetch(`${baseUrl}/api/ip-data`);
       if (response.ok) {
@@ -58,13 +57,31 @@ export default function IpTracker() {
   }
 
   async function handleVpnSubmit() {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!baseUrl) throw new Error("No baseUrl defined");
     setIsLoading(true);
+
+    const data = {
+      ip: ipAddress,
+      country,
+      vpn,
+    };
+
     try {
-      await addIpData({
-        ip: ipAddress,
-        country,
-        vpn,
+      const res = await fetch(`${baseUrl}/api/ip-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      if (res.status !== 200) {
+        toast.error("Failed to add entry");
+      } else {
+        toast.success("IP added to the list");
+      }
 
       // Reset form and close dialog
       setIpAddress("");
@@ -74,8 +91,6 @@ export default function IpTracker() {
 
       // Refresh data
       await fetchIpData();
-
-      toast.success("IP data added successfully");
     } catch (error) {
       console.error("Failed to add IP data:", error);
       toast.error("Failed to add IP data");
