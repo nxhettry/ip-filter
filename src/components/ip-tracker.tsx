@@ -76,7 +76,7 @@ export default function IpTracker() {
     };
 
     try {
-      const res = await fetch(`/api/ip-data`, {
+      const res = await fetch(`/api/ips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
