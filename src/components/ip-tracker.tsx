@@ -34,7 +34,7 @@ export default function IpTracker() {
     if (!baseUrl) throw new Error("No baseUrl defined");
 
     try {
-      const response = await fetch(`${baseUrl}/api/ip-data`);
+      const response = await fetch(`/api/ip-data`);
       if (response.ok) {
         const data = await response.json();
         setIpData(data);
@@ -69,7 +69,7 @@ export default function IpTracker() {
     };
 
     try {
-      const res = await fetch(`${baseUrl}/api/ip-data`, {
+      const res = await fetch(`/api/ip-data`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

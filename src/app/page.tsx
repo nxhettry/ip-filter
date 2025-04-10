@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import IpTracker from "@/components/ip-tracker";
 
 export default function Home() {
