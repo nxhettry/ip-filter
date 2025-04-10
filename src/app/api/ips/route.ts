@@ -8,7 +8,7 @@ export async function GET() {
     await dbConnect();
     const ipData = await IpDataModel.find({}).sort({ createdAt: -1 }).lean();
 
-    return NextResponse.json(ipData);
+    return NextResponse.json({ data: ipData }, { status: 200 });
   } catch (error) {
     console.error("Error fetching IP data:", error);
     return NextResponse.json(
