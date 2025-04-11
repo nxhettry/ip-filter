@@ -37,7 +37,12 @@ export default function IpTracker() {
   async function fetchIpData() {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/ips`);
+      const response = await fetch(`/api/ips`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.status !== 200) {
         toast.error("Failed to fetch IP data");

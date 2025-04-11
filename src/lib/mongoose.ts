@@ -1,18 +1,30 @@
 import mongoose from "mongoose";
 
-export default async function dbConnect() {
-  if (!process.env.MONGODB_URI) {
-    throw new Error("MONGODB_URI not defined in environment variables");
+let isConnected = false;
+
+export default async function connectDB() {
+  if (isConnected) {
+    console.log("Using existing connection");
+
+    return;
+  }
+
+  const URI = process.env.MONGODB_URI;
+
+  if (!URI) {
+    throw new Error("MongoDb URI is not defined !");
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      bufferCommands: false,
+    const db = await mongoose.connect(URI, {
+      dbName: "IP_ADDRESS",
     });
 
-    console.log("✅ MongoDB connected");
+    isConnected = db.connections[0].readyState === 1;
+
+    console.log("✅ Connected to MongoDB");
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
-    throw new Error("Failed to connect to MongoDB");
+    console.log("❌ MongoDB Connection Error : ", error);
+    isConnected = false;
   }
 }
